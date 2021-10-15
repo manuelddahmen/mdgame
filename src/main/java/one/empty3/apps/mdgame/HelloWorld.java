@@ -105,7 +105,8 @@ public class HelloWorld {
 
 			setCamera();
 			drawScene();
-
+			DrawEmpty3Lib drawEmpty3Lib = new DrawEmpty3Lib();
+			drawEmpty3Lib.setGL(null);
 			// Poll for window events. The key callback above will only be
 			// invoked during this call.
 			glfwPollEvents();
