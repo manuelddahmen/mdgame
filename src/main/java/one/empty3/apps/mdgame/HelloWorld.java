@@ -1,4 +1,6 @@
 package one.empty3.apps.mdgame;
+import one.empty3.library.Camera;
+import one.empty3.library.Point3D;
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
@@ -13,6 +15,7 @@ import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
 public class HelloWorld {
+	Perso perso;
 
 	// The window handle
 	private long window;
@@ -47,7 +50,7 @@ public class HelloWorld {
 		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
 
 		// Create the window
-		window = glfwCreateWindow(300, 300, "Hello World!", NULL, NULL);
+		window = glfwCreateWindow(1200, 900, "Hello World!", NULL, NULL);
 		if ( window == NULL )
 			throw new RuntimeException("Failed to create the GLFW window");
 
@@ -55,7 +58,18 @@ public class HelloWorld {
 		glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
 			if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
 				glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
+			else if(key == GLFW_KEY_8) {
+				perso.acc(1.);
+			} else if(key == GLFW_KEY_2) {
+				perso.dec(1.);
+			} else if(key == GLFW_KEY_4){//LEFT
+				perso.left(1.);
+				}else if(key==GLFW_KEY_6) { // RIGHT
+				perso.right(1);
+			}
 		});
+
+
 
 		// Get the thread stack and push a new frame
 		try ( MemoryStack stack = stackPush() ) {
@@ -96,17 +110,32 @@ public class HelloWorld {
 		// Set the clear color
 		glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
 
+		Decor1 decor1 = new Decor1();
+
+		decor1.init();
+
+		DrawEmpty3Lib drawEmpty3Lib = new DrawEmpty3Lib();
+
+
 		// Run the rendering loop until the user has attempted to close
 		// the window or has pressed the ESCAPE key.
+		Camera camera = new Camera(Point3D.X.mult(2.), Point3D.O0, Point3D.Y);
+		perso = new Perso(camera);
 		while ( !glfwWindowShouldClose(window) ) {
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
+			//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
+
+			try {
+				// Le personnage vit sa vie jusqu'à sa mort.
+				perso.life();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 
 			glfwSwapBuffers(window); // swap the color buffers
 
 			setCamera();
-			drawScene();
-			DrawEmpty3Lib drawEmpty3Lib = new DrawEmpty3Lib();
-			drawEmpty3Lib.setGL(null);
+			drawEmpty3Lib.draw(decor1);
+			drawEmpty3Lib.setCameraPosition(camera);
 			// Poll for window events. The key callback above will only be
 			// invoked during this call.
 			glfwPollEvents();
