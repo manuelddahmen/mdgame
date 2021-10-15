@@ -3,7 +3,7 @@ plugins {
 	id 'java'
 }
 
-group 'org.example'
+group 'one.empty3.apps'
 version '1.0'
 
 project.ext.lwjglVersion = "3.2.3"
@@ -100,4 +100,5 @@ dependencies {
 	runtimeOnly "org.lwjgl:lwjgl-yoga::$lwjglNatives"
 	runtimeOnly "org.lwjgl:lwjgl-zstd::$lwjglNatives"
 	implementation "org.joml:joml:${jomlVersion}"
+	implementation 'one.empty3:empty3-library-3d-android:2021.9.2'
 }

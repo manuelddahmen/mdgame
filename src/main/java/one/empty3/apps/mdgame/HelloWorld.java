@@ -1,7 +1,8 @@
+package one.empty3.apps.mdgame;
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
-import org.lwjgl.system.*;
+import org.lwjgl .system.*;
 
 import java.nio.*;
 
@@ -102,10 +103,21 @@ public class HelloWorld {
 
 			glfwSwapBuffers(window); // swap the color buffers
 
+			setCamera();
+			drawScene();
+
 			// Poll for window events. The key callback above will only be
 			// invoked during this call.
 			glfwPollEvents();
 		}
+	}
+
+	private void drawScene() {
+
+	}
+
+	private void setCamera() {
+
 	}
 
 	public static void main(String[] args) {
