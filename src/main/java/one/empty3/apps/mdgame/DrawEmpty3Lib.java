@@ -3,6 +3,9 @@ package one.empty3.apps.mdgame;
 import one.empty3.library.*;
 import one.empty3.library.core.nurbs.ParametricSurface;
 import org.lwjgl.glfw.*;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL20;
+import org.lwjgl.opengl.GL30;
 
 public class DrawEmpty3Lib {
     private GLFW gl;
@@ -15,6 +18,13 @@ public class DrawEmpty3Lib {
     }
     public void draw(Representable representable) {
         if(representable instanceof TRI) {
+            TRI tri = (TRI) representable;
+
+            GL20.glBegin(GL11.GL_TRIANGLES);
+            GL20.glVertex2f(200, 100);
+            GL20.glVertex2f(300, 400);
+            GL20.glVertex2f(100, 400);
+            GL20.glEnd();
 
         } else if(representable instanceof RepresentableConteneur) {
             ((RepresentableConteneur)representable).getListRepresentable().forEach(representable1 -> draw(representable1));
